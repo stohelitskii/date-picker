@@ -1,0 +1,13 @@
+.root {
+  position: relative;
+
+  &__header {
+  }
+
+  &__body {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: rgb(164, 216, 174);
+  }
+}

@@ -1,0 +1,14 @@
+.root {
+  opacity: 0.3;
+  width: 30px;
+  height: 30px;
+  padding: 2px;
+
+  &:hover {
+    
+  }
+
+  &_current-month {
+    opacity: 1;
+  }
+}
