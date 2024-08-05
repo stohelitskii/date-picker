@@ -1,5 +1,6 @@
 export const AMOUNT_DAY_IN_WEEK = 7;
-export const AMOUNT_WEEK_IN_YEAR = 52;
-export const FIRST_WEEK_IN_YEAR = 1;
+
 export const MONDAY_INDEX = 1;
-export const SUNDAY_INDEX = 0;
+export const THURSDAY_INDEX = 4;
+export const SUNDAY_INDEX_IS_DEFAULT = 0;
+export const SUNDAY_INDEX_IS_LAST = 6;

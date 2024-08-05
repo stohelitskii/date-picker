@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { AMOUNT_DAY_IN_WEEK, MONDAY_INDEX, SUNDAY_INDEX } from '../constants';
+import { AMOUNT_DAY_IN_WEEK, MONDAY_INDEX, SUNDAY_INDEX_IS_DEFAULT } from '../constants';
 import { FirstWeekDay, Location, WeekDayNameData } from '../types';
 
 type UseWeekNameCellsProps = {
@@ -19,7 +19,7 @@ const useWeekNameCells = ({ location, firstWeekDay }: UseWeekNameCellsProps): Us
       case firstWeekDay === 'monday':
         return (MONDAY_INDEX - currentDate.getDay() + AMOUNT_DAY_IN_WEEK) % AMOUNT_DAY_IN_WEEK;
       default:
-        return (SUNDAY_INDEX - currentDate.getDay() + AMOUNT_DAY_IN_WEEK) % AMOUNT_DAY_IN_WEEK;
+        return (SUNDAY_INDEX_IS_DEFAULT - currentDate.getDay() + AMOUNT_DAY_IN_WEEK) % AMOUNT_DAY_IN_WEEK;
     }
   }, [firstWeekDay]);
 

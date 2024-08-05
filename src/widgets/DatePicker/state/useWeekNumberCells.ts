@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
 import { DateCells } from '../types';
-import { AMOUNT_DAY_IN_WEEK, AMOUNT_WEEK_IN_YEAR, FIRST_WEEK_IN_YEAR } from '../constants';
+import { THURSDAY_INDEX } from '../constants';
+import { useMemo } from 'react';
 
 type UseWeekNumberCellsProps = {
   dateCells: DateCells[];
@@ -12,23 +12,24 @@ export type UseWeekNumberCells = {
 
 const useWeekNumberCells = ({ dateCells }: UseWeekNumberCellsProps): UseWeekNumberCells => {
   const weekNumberCells = useMemo(() => {
-    const weekNumbersSet = new Set<number>();
-
-    dateCells.forEach(({ timestamp }, i) => {
-      if (i % AMOUNT_DAY_IN_WEEK !== 0) return;
-
+    return dateCells.reduce((acc, { timestamp }) => {
       const date = new Date(timestamp);
-      const startOfYear = new Date(date.getFullYear(), 0, 1);
-      const pastDaysOfYear = (date.getTime() - startOfYear.getTime()) / (24 * 60 * 60 * 1000);
 
-      let weekNumber = Math.ceil((pastDaysOfYear + startOfYear.getDay() + 1) / 7);
+      if (date.getDay() !== THURSDAY_INDEX) return acc;
 
-      weekNumber = weekNumber > AMOUNT_WEEK_IN_YEAR ? FIRST_WEEK_IN_YEAR : weekNumber;
+      const firstWeek = new Date(date.getFullYear(), 0, 1);
+      while (firstWeek.getDay() !== THURSDAY_INDEX) {
+        firstWeek.setDate(firstWeek.getDate() + 1);
+      }
+      const currentWeek = new Date(timestamp);
 
-      weekNumbersSet.add(weekNumber);
-    });
+      const passedTime = currentWeek.getTime() - firstWeek.getTime();
+      const millisecondsInAWeek = 1000 * 60 * 60 * 24 * 7;
+      const weekNumber = Math.floor(passedTime / millisecondsInAWeek) + 1;
 
-    return Array.from(weekNumbersSet);
+      acc.push(weekNumber);
+      return acc;
+    }, [] as number[]);
   }, [dateCells]);
 
   return { weekNumberCells };

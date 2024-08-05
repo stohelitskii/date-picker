@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import { DateCells, DateData, FirstWeekDay } from '../types';
-import { AMOUNT_DAY_IN_WEEK } from '../constants';
+import { AMOUNT_DAY_IN_WEEK, SUNDAY_INDEX_IS_DEFAULT, SUNDAY_INDEX_IS_LAST } from '../constants';
 
 type UseDateCellsProps = {
   navigationDate: DateData;
@@ -21,8 +21,10 @@ const useDateCells = ({ navigationDate: { year, month }, firstWeekDay }: UseDate
 
   const currentMonthFirstWeekDay = useMemo(() => {
     switch (true) {
+      case firstWeekDay === 'monday' && new Date(year, month, 1).getDay() === SUNDAY_INDEX_IS_DEFAULT:
+        return SUNDAY_INDEX_IS_LAST;
       case firstWeekDay === 'monday':
-        return new Date(year, month, 1).getDay() === 0 ? 6 : new Date(year, month, 1).getDay() - 1;
+        return new Date(year, month, 1).getDay() - 1;
       default:
         return new Date(year, month, 1).getDay();
     }
@@ -30,9 +32,10 @@ const useDateCells = ({ navigationDate: { year, month }, firstWeekDay }: UseDate
 
   const currentMonthLastWeekDay = useMemo(() => {
     switch (true) {
+      case firstWeekDay === 'monday' && new Date(year, month + 1, 0).getDay() === SUNDAY_INDEX_IS_DEFAULT:
+        return SUNDAY_INDEX_IS_LAST;
       case firstWeekDay === 'monday':
-        return new Date(year, month + 1, 0).getDay() === 0 ? 7 : new Date(year, month + 1, 0).getDay();
-
+        return new Date(year, month + 1, 0).getDay() - 1;
       default:
         return new Date(year, month + 1, 0).getDay();
     }
@@ -40,10 +43,7 @@ const useDateCells = ({ navigationDate: { year, month }, firstWeekDay }: UseDate
 
   const prevMonthAmountDays = useMemo(() => currentMonthFirstWeekDay - 1, [currentMonthFirstWeekDay]);
 
-  const nextMonthAmountDays = useMemo(
-    () => (currentMonthLastWeekDay === 7 ? 0 : AMOUNT_DAY_IN_WEEK - currentMonthLastWeekDay),
-    [currentMonthLastWeekDay]
-  );
+  const nextMonthAmountDays = useMemo(() => AMOUNT_DAY_IN_WEEK - currentMonthLastWeekDay, [currentMonthLastWeekDay]);
 
   const prevMonthDayList = useMemo(() => {
     const list: DateCells[] = [];
