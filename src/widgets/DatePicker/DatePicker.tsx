@@ -1,46 +1,41 @@
 import cn from 'classnames';
 import { FC, useRef } from 'react';
 
-import DateButton from './DateButton';
-import Calendar from './Calendar';
-
-import { DatePickerContextInitialization, DatePickerContextProvider } from './state/context';
-
-import { DateMask, DatePickerOptions, FirstWeekDay, FormatOption, Location } from './types';
+import DateButton from '@/widgets/DatePicker/components/DateButton';
+import Calendar from '@/widgets/DatePicker/components/Calendar';
+import { FirstWeekDay, Location } from '@/types/';
+import { DatePickerContextProvider } from './state/context';
 
 import s from './DatePicker.module.scss';
 
 type DatePickerProps = {
   className?: string;
-  dateMask?: DateMask;
   location?: Location;
+  dateFormat?: string;
   firstWeekDay?: FirstWeekDay;
-  navigationDateFormat?: FormatOption;
+  displayWeekNumber?: boolean;
 };
 
-const NAVIGATION_DATE_FORMAT_DEFAULT: FormatOption = { month: 'long', year: 'numeric' };
+export type DatePickerOptions = Omit<DatePickerProps, 'className'> & {
+  ref: React.MutableRefObject<HTMLDivElement | null>;
+};
 
-const DatePicker: FC<DatePickerProps> = ({
-  className,
-  location = 'en-EN',
-  firstWeekDay = 'sunday',
-  navigationDateFormat = NAVIGATION_DATE_FORMAT_DEFAULT,
-  dateMask = 'dd.mm.yy',
-}) => {
-  const datePickerRef = useRef(null);
+const DatePicker: FC<DatePickerProps> = ({ className, location, dateFormat, firstWeekDay, displayWeekNumber }) => {
+  const ref = useRef<HTMLDivElement | null>(null);
 
-  const initialization: DatePickerContextInitialization & DatePickerOptions = {
-    ref: datePickerRef,
+  const initialization: DatePickerOptions = {
+    ref,
     location,
+    dateFormat,
     firstWeekDay,
-    navigationDateFormat,
+    displayWeekNumber,
   };
 
   return (
     <DatePickerContextProvider initialization={initialization}>
-      <div ref={datePickerRef} className={cn(className, s.root)}>
-        <DateButton dateMask={dateMask} className={s.root__header} />
-        <Calendar className={s.root__body} />
+      <div ref={ref} className={cn(className, s.root)}>
+        <DateButton />
+        <Calendar className={s.root__calendar} />
       </div>
     </DatePickerContextProvider>
   );

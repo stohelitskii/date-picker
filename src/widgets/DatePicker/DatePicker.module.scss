@@ -1,10 +1,7 @@
 .root {
   position: relative;
 
-  &__header {
-  }
-
-  &__body {
+  &__calendar {
     position: absolute;
     top: 100%;
     left: 0;

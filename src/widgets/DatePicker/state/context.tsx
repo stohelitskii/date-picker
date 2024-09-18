@@ -1,12 +1,20 @@
-import { FC, createContext, useContext, RefObject } from 'react';
-import useDatePickerState, { UseDatePickerState } from './useDatePickerState';
-import useNavigationDate, { UseNavigationDate } from './useNavigationDate';
-import { DatePickerOptions } from '../types';
-import useDateCells, { UseDateCells } from './useDateCells';
-import useWeekNameCells, { UseWeekNameCells } from './useWeekNameCells';
-import useWeekNumberCells, { UseWeekNumberCells } from './useWeekNumberCells';
+import { FC, createContext, useContext } from 'react';
 
-type DatePickerContextValue = UseDatePickerState &
+import { DateFormat, Location } from '@/types';
+import { DEFAULT_DATE_FORMAT, DEFAULT_FIRST_WEEK_DAY, DEFAULT_LOCATION } from '../config';
+import { DatePickerOptions } from '../DatePicker';
+import useDatePickerState, { UseDatePickerState } from './slices/useDatePickerState';
+import { useNavigationDate, UseNavigationDate } from './slices/useNavigationDate';
+import { useDateCells, UseDateCells } from './slices/useDateCells';
+import { useWeekNameCells, UseWeekNameCells } from './slices/useWeekNameCells';
+import { useWeekNumberCells, UseWeekNumberCells } from './slices/useWeekNumberCells';
+import { useSelectedDate, UseSelectedDate } from './slices/useSelectedDate';
+import { useCurrentDate, UseCurrentDate } from './slices/useCurrentDate';
+
+type DatePickerContextValue = Omit<DatePickerOptions, 'ref'> &
+  UseDatePickerState &
+  UseCurrentDate &
+  UseSelectedDate &
   UseNavigationDate &
   UseDateCells &
   UseWeekNumberCells &
@@ -14,42 +22,55 @@ type DatePickerContextValue = UseDatePickerState &
 
 const DatePickerContext = createContext<DatePickerContextValue | null>(null);
 
-export type DatePickerContextInitialization = {
-  ref: RefObject<HTMLDivElement> | null;
-};
-
 type DatePickerContextProviderProps = {
-  initialization: DatePickerContextInitialization & DatePickerOptions;
+  initialization: DatePickerOptions;
   children: React.ReactNode;
 };
 
 export const DatePickerContextProvider: FC<DatePickerContextProviderProps> = ({ initialization, children }) => {
-  const { ref, location, firstWeekDay, navigationDateFormat } = initialization;
+  const {
+    ref,
+    location = DEFAULT_LOCATION,
+    dateFormat = DEFAULT_DATE_FORMAT,
+    firstWeekDay = DEFAULT_FIRST_WEEK_DAY,
+    displayWeekNumber = true,
+  } = initialization;
 
   const { isOpen, handleToggleOpen } = useDatePickerState({ ref });
-  const {
-    navigationDate,
-    setNavigationNextYear,
-    setNavigationPrevYear,
-    setNavigationNextMonth,
-    setNavigationPrevMonth,
-  } = useNavigationDate({ location, formatOption: navigationDateFormat });
+
+  const { currentDate } = useCurrentDate();
+
+  const { navigationDate, handlerSetPrevMonth, handlerSetNextYear, handlerSetPrevYear, handlerSetNextMonth } =
+    useNavigationDate();
 
   const { dateCells } = useDateCells({ navigationDate, firstWeekDay });
-  const { weekNumberCells } = useWeekNumberCells({ dateCells });
-  const { weekNameCells } = useWeekNameCells({ location, firstWeekDay });
+
+  const { weekNumberCells } = useWeekNumberCells({ dateCells, displayWeekNumber });
+
+  const { weekNameCells } = useWeekNameCells({
+    location,
+    firstWeekDay,
+  });
+
+  const { selectedDateTextValue, handlerSetSelectedDate } = useSelectedDate({ dateFormat, location });
 
   const value = {
+    location,
+    dateFormat,
+    displayWeekNumber,
     isOpen,
-    navigationDate,
-    dateCells,
-    weekNameCells,
-    weekNumberCells,
     handleToggleOpen,
-    setNavigationNextYear,
-    setNavigationPrevYear,
-    setNavigationNextMonth,
-    setNavigationPrevMonth,
+    currentDate,
+    selectedDateTextValue,
+    handlerSetSelectedDate,
+    navigationDate,
+    handlerSetPrevMonth,
+    handlerSetNextYear,
+    handlerSetPrevYear,
+    handlerSetNextMonth,
+    dateCells,
+    weekNumberCells,
+    weekNameCells,
   };
 
   return <DatePickerContext.Provider value={value}>{children}</DatePickerContext.Provider>;

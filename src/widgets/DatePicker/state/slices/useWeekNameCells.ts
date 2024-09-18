@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
-import { AMOUNT_DAY_IN_WEEK, MONDAY_INDEX, SUNDAY_INDEX_IS_DEFAULT } from '../constants';
-import { FirstWeekDay, Location, WeekDayNameData } from '../types';
+
+import { FirstWeekDay, Location } from '@/types';
+import { AMOUNT_DAY_IN_WEEK, MONDAY_INDEX, SUNDAY_INDEX_IS_DEFAULT } from '../../constants';
 
 type UseWeekNameCellsProps = {
   location: Location;
@@ -8,10 +9,10 @@ type UseWeekNameCellsProps = {
 };
 
 export type UseWeekNameCells = {
-  weekNameCells: WeekDayNameData[];
+  weekNameCells: string[];
 };
 
-const useWeekNameCells = ({ location, firstWeekDay }: UseWeekNameCellsProps): UseWeekNameCells => {
+export const useWeekNameCells = ({ location, firstWeekDay }: UseWeekNameCellsProps): UseWeekNameCells => {
   const offsetStartWeekName = useMemo(() => {
     const currentDate = new Date();
 
@@ -30,18 +31,13 @@ const useWeekNameCells = ({ location, firstWeekDay }: UseWeekNameCellsProps): Us
       const weekDate = new Date(currentDate);
       weekDate.setDate(currentDate.getDate() + offsetStartWeekName + i);
 
-      return {
-        value: weekDate.getDay(),
-        text: weekDate
-          .toLocaleDateString(location, {
-            weekday: 'short',
-          })
-          .slice(0, 2),
-      };
+      return weekDate
+        .toLocaleDateString(location, {
+          weekday: 'short',
+        })
+        .slice(0, 2);
     });
   }, [location, offsetStartWeekName]);
 
   return { weekNameCells };
 };
-
-export default useWeekNameCells;
