@@ -1,6 +1,5 @@
 import { FC, createContext, useContext } from 'react';
 
-import { DateFormat, Location } from '@/types';
 import { DEFAULT_DATE_FORMAT, DEFAULT_FIRST_WEEK_DAY, DEFAULT_LOCATION } from '../config';
 import { DatePickerOptions } from '../DatePicker';
 import useDatePickerState, { UseDatePickerState } from './slices/useDatePickerState';
@@ -33,7 +32,7 @@ export const DatePickerContextProvider: FC<DatePickerContextProviderProps> = ({ 
     location = DEFAULT_LOCATION,
     dateFormat = DEFAULT_DATE_FORMAT,
     firstWeekDay = DEFAULT_FIRST_WEEK_DAY,
-    displayWeekNumber = true,
+    displayWeekNumber = false,
   } = initialization;
 
   const { isOpen, handleToggleOpen } = useDatePickerState({ ref });
