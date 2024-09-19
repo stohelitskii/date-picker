@@ -1,3 +1,6 @@
+@import './colors.scss';
+@import './mixins.scss';
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -5,8 +8,11 @@
 }
 
 .app {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   min-height: 100vh;
+  padding: 30px;
+  background-color: rgb(199, 228, 156);
+}
+
+button {
+  cursor: pointer;
 }

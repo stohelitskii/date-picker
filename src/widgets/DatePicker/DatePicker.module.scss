@@ -1,10 +1,42 @@
+@import 'style';
+
 .root {
+  --text-start-em: 16px;
+  --text-xl-size: 1.375em;
+  --text-l-size: 1.25em;
+  --text-m-size: 1.125em;
+  --text-s-size: 1em;
+  --text-xs-size: 0.875em;
+
   position: relative;
+  font-size: var(--text-start-em);
+  color: var(--accent-color);
+
+  &_dark {
+    --primary-background-color: #{$shark};
+    --secondary-background-color: #{$outer-Space};
+    --primary-border-color: #{$tundora};
+    --primary-font-color: #{$orange};
+    --secondary-font-color: #{$vermilion};
+    --light-font-color: #{$tundora};
+  }
+
+  &_light {
+    --primary-background-color: #{$silver};
+    --secondary-background-color: #{$white};
+    --primary-border-color: #{$alto};
+    --primary-font-color: #{$orange};
+    --secondary-font-color: #{$vermilion};
+    --light-font-color: #{$alto};
+  }
 
   &__calendar {
     position: absolute;
     top: 100%;
     left: 0;
-    background-color: rgb(164, 216, 174);
+    padding: 10px;
+    border: 1px solid var(--primary-border-color);
+    border-radius: 0 0 20px 20px;
+    background-color: var(--secondary-background-color);
   }
 }

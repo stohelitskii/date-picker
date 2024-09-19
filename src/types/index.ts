@@ -56,3 +56,5 @@ export type DateData = {
     [key in DateItemName]: number;
   };
 };
+
+export type DatePickerTheme = 'dark' | 'light';
