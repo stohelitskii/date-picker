@@ -1,0 +1,9 @@
+@import 'style';
+
+.root {
+  @include transition(color);
+
+  display: inline-block;
+  flex-shrink: 0;
+  color: currentColor;
+}

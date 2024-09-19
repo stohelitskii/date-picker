@@ -15,19 +15,25 @@
   &_dark {
     --primary-background-color: #{$shark};
     --secondary-background-color: #{$outer-Space};
+    --extra-background-color: #{$orange};
     --primary-border-color: #{$tundora};
+    --extra-border-color: #{$orange};
     --primary-font-color: #{$orange};
     --secondary-font-color: #{$vermilion};
-    --light-font-color: #{$tundora};
+    --accent-font-color: #{$alto};
+    --extra-font-color: #{$alto};
   }
 
   &_light {
     --primary-background-color: #{$silver};
     --secondary-background-color: #{$white};
+    --extra-background-color: #{$orange};
     --primary-border-color: #{$alto};
+    --extra-border-color: #{$orange};
     --primary-font-color: #{$orange};
     --secondary-font-color: #{$vermilion};
-    --light-font-color: #{$alto};
+    --accent-font-color: #{$tundora};
+    --extra-font-color: #{$white};
   }
 
   &__calendar {

@@ -23,7 +23,7 @@ export type DatePickerOptions = Omit<DatePickerProps, 'className'> & {
 
 const DatePicker: FC<DatePickerProps> = ({
   className,
-  theme = 'dark',
+  theme = 'light',
   location,
   dateFormat,
   firstWeekDay,

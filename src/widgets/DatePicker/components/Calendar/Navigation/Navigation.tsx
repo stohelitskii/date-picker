@@ -1,6 +1,8 @@
 import { FC, useMemo } from 'react';
 import { useDatePickerContext } from '../../../state';
 
+import { ArrowLeft, ArrowDoubleLeft, ArrowRight, ArrowDoubleRight } from '@/components/icons';
+
 import s from './Navigation.module.scss';
 
 type NavigationProps = {
@@ -20,17 +22,17 @@ const Navigation: FC<NavigationProps> = () => {
   return (
     <div className={s.root}>
       <button className={s.root__button} onClick={handlerSetPrevYear}>
-        {'<<'}
+        <ArrowDoubleLeft className={s.root__icon} />
       </button>
       <button className={s.root__button} onClick={handlerSetPrevMonth}>
-        {'<'}
+        <ArrowLeft className={s.root__icon} />
       </button>
       <div className={s.root__display}>{displayDateText}</div>
       <button className={s.root__button} onClick={handlerSetNextMonth}>
-        {'>'}
+        <ArrowRight className={s.root__icon} />
       </button>
       <button className={s.root__button} onClick={handlerSetNextYear}>
-        {'>>'}
+        <ArrowDoubleRight className={s.root__icon} />
       </button>
     </div>
   );

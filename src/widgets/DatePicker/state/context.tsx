@@ -51,7 +51,7 @@ export const DatePickerContextProvider: FC<DatePickerContextProviderProps> = ({ 
     firstWeekDay,
   });
 
-  const { selectedDateTextValue, handlerSetSelectedDate } = useSelectedDate({ dateFormat, location });
+  const { selectedDate, selectedDateTextValue, handlerSetSelectedDate } = useSelectedDate({ dateFormat, location });
 
   const value = {
     location,
@@ -60,6 +60,7 @@ export const DatePickerContextProvider: FC<DatePickerContextProviderProps> = ({ 
     isOpen,
     handleToggleOpen,
     currentDate,
+    selectedDate,
     selectedDateTextValue,
     handlerSetSelectedDate,
     navigationDate,

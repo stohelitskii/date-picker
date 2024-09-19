@@ -1,3 +1,17 @@
+$transition-default: 0.3s ease;
+
+@mixin transition($properties...) {
+  $animated-property: #{''};
+
+  @if length($properties) > 1 {
+    @for $i from 1 through length($properties) - 1 {
+      $animated-property: $animated-property nth($properties, $i) $transition-default #{', '};
+    }
+  }
+
+  transition: $animated-property nth($properties, length($properties)) $transition-default;
+}
+
 @mixin hideScrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -48,7 +62,7 @@
   $bar_color: $color-grey-3,
   $caret_color: $color-grey-8
 ) {
-  @supports #{"\selector(*::-webkit-scrollbar)"} {
+  @supports #{'\selector(*::-webkit-scrollbar)'} {
     &::-webkit-scrollbar {
       height: $height;
       width: $width;
@@ -64,7 +78,7 @@
     }
   }
 
-  @supports #{"\not selector(*::-webkit-scrollbar)"} {
+  @supports #{'\not selector(*::-webkit-scrollbar)'} {
     & {
       scrollbar-width: thin;
       scrollbar-color: $caret_color $bar_color;
@@ -116,7 +130,6 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
 
 // Миксин для фикса кнопки справа у компонента Vk Cell
 

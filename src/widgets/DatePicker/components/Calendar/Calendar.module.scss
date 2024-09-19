@@ -1,8 +1,7 @@
 .root {
   $self: &;
-
-  &__navigation {
-  }
+  width: 100%;
+  max-width: 320px;
 
   &__body {
     display: grid;
@@ -13,7 +12,7 @@
 
     &_display-week-number {
       grid-template-columns: repeat(8, 1fr);
-    
+
       #{$self}__week-name-cells {
         grid-column: 2 / span 7;
       }
