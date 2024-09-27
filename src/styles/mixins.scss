@@ -1,0 +1,172 @@
+$transition-default: 0.3s ease;
+
+@mixin transition($properties...) {
+  $animated-property: #{''};
+
+  @if length($properties) > 1 {
+    @for $i from 1 through length($properties) - 1 {
+      $animated-property: $animated-property nth($properties, $i) $transition-default #{', '};
+    }
+  }
+
+  transition: $animated-property nth($properties, length($properties)) $transition-default;
+}
+
+@mixin hideScrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* stylelint-disable */
+@mixin clamp($lines_count) {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lines_count;
+}
+/* stylelint-enable */
+
+@mixin square($size) {
+  height: $size;
+  width: $size;
+}
+
+@mixin hover {
+  /* Переданные свойства будут работать на устройствах, поддерживающих hover */
+
+  @media (hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+@mixin outline($color) {
+  outline: 2px solid $color;
+  outline-offset: 4px;
+}
+
+@mixin pre-wrap {
+  white-space: pre-wrap;
+}
+
+@mixin custom-scrollbar(
+  $width: 3px,
+  $height: 76px,
+  $radius: 30px,
+  $bar_color: $color-grey-3,
+  $caret_color: $color-grey-8
+) {
+  @supports #{'\selector(*::-webkit-scrollbar)'} {
+    &::-webkit-scrollbar {
+      height: $height;
+      width: $width;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: $bar_color;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $caret_color;
+      border-radius: $radius;
+    }
+  }
+
+  @supports #{'\not selector(*::-webkit-scrollbar)'} {
+    & {
+      scrollbar-width: thin;
+      scrollbar-color: $caret_color $bar_color;
+    }
+  }
+}
+
+@mixin desktop-only {
+  @include tablet {
+    display: none;
+    @content;
+  }
+}
+
+@mixin no-desktop($display: block) {
+  display: none;
+
+  @include tablet {
+    display: $display;
+    @content;
+  }
+}
+
+@mixin flex-center($axis: all, $display: flex) {
+  @if $display == inline-flex {
+    display: inline-flex;
+  } @else {
+    display: flex;
+  }
+
+  @if $axis == main {
+    align-items: center;
+  } @else if $axis == cross {
+    justify-content: center;
+  } @else {
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@mixin z-index($value: 1, $position: relative) {
+  position: $position;
+  z-index: $value;
+}
+
+@mixin absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+// Миксин для фикса кнопки справа у компонента Vk Cell
+
+@mixin fixCellBeforeIconButton($buttonWidth) {
+  width: 100% !important;
+  height: 100% !important;
+
+  &-button {
+    width: $buttonWidth;
+    margin-right: 0 !important;
+  }
+}
+
+@mixin vertical-gap($mt) {
+  & > *:not(:first-child) {
+    margin-top: $mt;
+  }
+}
+
+@mixin horizontal-gap($ml) {
+  & > *:not(:first-child) {
+    margin-left: $ml;
+  }
+}
+
+@mixin link($important: false, $decoration: underline) {
+  @include transition(opacity);
+
+  @if $important == important {
+    color: $color-vk-blue !important;
+    text-decoration: $decoration !important;
+  } @else {
+    color: $color-vk-blue;
+    text-decoration: $decoration;
+  }
+
+  @include hover {
+    opacity: 0.5;
+  }
+}

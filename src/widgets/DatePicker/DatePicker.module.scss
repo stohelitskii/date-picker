@@ -1,0 +1,48 @@
+@import 'style';
+
+.root {
+  --text-start-em: 16px;
+  --text-xl-size: 1.375em;
+  --text-l-size: 1.25em;
+  --text-m-size: 1.125em;
+  --text-s-size: 1em;
+  --text-xs-size: 0.875em;
+
+  position: relative;
+  font-size: var(--text-start-em);
+  color: var(--accent-color);
+
+  &_dark {
+    --primary-background-color: #{$shark};
+    --secondary-background-color: #{$outer-Space};
+    --extra-background-color: #{$orange};
+    --primary-border-color: #{$tundora};
+    --extra-border-color: #{$orange};
+    --primary-font-color: #{$orange};
+    --secondary-font-color: #{$vermilion};
+    --accent-font-color: #{$alto};
+    --extra-font-color: #{$alto};
+  }
+
+  &_light {
+    --primary-background-color: #{$silver};
+    --secondary-background-color: #{$white};
+    --extra-background-color: #{$orange};
+    --primary-border-color: #{$alto};
+    --extra-border-color: #{$orange};
+    --primary-font-color: #{$orange};
+    --secondary-font-color: #{$vermilion};
+    --accent-font-color: #{$tundora};
+    --extra-font-color: #{$white};
+  }
+
+  &__calendar {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding: 10px;
+    border: 1px solid var(--primary-border-color);
+    border-radius: 0 0 20px 20px;
+    background-color: var(--secondary-background-color);
+  }
+}

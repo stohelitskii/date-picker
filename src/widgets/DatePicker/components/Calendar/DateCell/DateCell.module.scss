@@ -1,0 +1,26 @@
+@import 'style';
+
+.root {
+  opacity: 0.3;
+  width: 30px;
+  height: 30px;
+  padding: 2px;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  color: var(--accent-font-color);
+
+  &_current-month {
+    opacity: 1;
+  }
+
+  &_current-date {
+    color: var(--secondary-font-color);
+    border-color: var(--extra-border-color);
+  }
+
+  &_selected-date {
+    color: var(--extra-font-color);
+    background-color: var(--extra-background-color);
+    border-color: var(--extra-border-color);
+  }
+}
